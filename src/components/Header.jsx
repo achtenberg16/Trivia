@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import md5 from 'crypto-js/md5';
 
 class Header extends React.Component {
   render() {
-    const { token, score, playerName } = this.props;
+    const { email, score, playerName } = this.props;
+    const hash = md5(email).toString();
     return (
       <header>
         <img
           className="profile-image"
-          src={ `https://www.gravatar.com/avatar/${token}` }
+          src={ `https://www.gravatar.com/avatar/${hash}` }
           data-testid="header-profile-picture"
           alt="profile"
         />
@@ -22,13 +24,13 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  token: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   playerName: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  token: state.token,
+  email: state.player.email,
   score: state.player.score,
   playerName: state.player.name,
 });

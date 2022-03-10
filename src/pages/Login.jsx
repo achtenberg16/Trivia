@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { addTokenFetch } from '../action';
+import { addTokenFetch, addInfos } from '../action';
 
 export class Login extends Component {
   constructor() {
@@ -34,9 +34,10 @@ export class Login extends Component {
   }
 
   handleSubmit = async (event) => {
-    const { history } = this.props;
+    const { gravatarEmail, name } = this.state;
+    const { history, submitInfos, addToken } = this.props;
     event.preventDefault();
-    const { addToken } = this.props;
+    submitInfos({ gravatarEmail, name });
     await addToken();
     history.push('/game');
   }
@@ -97,10 +98,12 @@ export class Login extends Component {
 Login.propTypes = {
   history: object,
   addToken: func,
+  submitInfos: func,
 }.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   addToken: () => dispatch(addTokenFetch()),
+  submitInfos: (userInfos) => dispatch(addInfos(userInfos)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

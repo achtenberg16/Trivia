@@ -2,6 +2,12 @@ import { requestToken } from '../services/fetchAPI';
 import { setLocalStorage } from '../services/LocalStorage';
 
 export const ADD_TOKEN = '@token/add_token';
+export const ADD_INFOS = '@player/add_infos';
+
+export const addInfos = (userInfo) => ({
+  type: ADD_INFOS,
+  payload: userInfo,
+});
 
 export const addTokenAction = (token) => {
   console.log(token);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { object } from 'prop-types';
+import { object, func } from 'prop-types';
+import { connect } from 'react-redux';
+import { addTokenFetch } from '../action';
 
 export class Login extends Component {
   constructor() {
@@ -31,10 +33,21 @@ export class Login extends Component {
     this.setState({ isButtonDisabled: true });
   }
 
+  handleSubmit = async (event) => {
+    const { history } = this.props;
+    event.preventDefault();
+    const { addToken } = this.props;
+    await addToken();
+    history.push('/game');
+  }
+
   render() {
     const { name, gravatarEmail, isButtonDisabled } = this.state;
     return (
-      <form type="submit">
+      <form
+        type="submit"
+        onSubmit={ this.handleSubmit }
+      >
         <label htmlFor="name">
           Nome:
           <input
@@ -83,6 +96,11 @@ export class Login extends Component {
 
 Login.propTypes = {
   history: object,
+  addToken: func,
 }.isRequired;
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  addToken: () => dispatch(addTokenFetch()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

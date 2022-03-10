@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { object } from 'prop-types';
 
 export class Login extends Component {
   constructor() {
@@ -8,6 +9,11 @@ export class Login extends Component {
       gravatarEmail: '',
       isButtonDisabled: true,
     };
+  }
+
+  redirectSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -62,9 +68,21 @@ export class Login extends Component {
         >
           Play
         </button>
+
+        <button
+          data-testid="btn-settings"
+          type="button"
+          onClick={ this.redirectSettings }
+        >
+          Settings
+        </button>
       </form>
     );
   }
 }
+
+Login.propTypes = {
+  history: object,
+}.isRequired;
 
 export default Login;

@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 class Header extends React.Component {
   render() {
     const { email, score, playerName } = this.props;
     const hash = md5(email).toString();
+    console.log(hash);
     return (
       <header>
         <img
@@ -30,7 +32,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.player.email,
+  email: state.player.gravatarEmail,
   score: state.player.score,
   playerName: state.player.name,
 });

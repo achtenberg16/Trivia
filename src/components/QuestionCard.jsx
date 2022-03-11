@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import shuffleArray from '../helpers';
 import { updateScoreAction, updateIndexAction } from '../action';
+import { getItemLocalStorage, setLocalStorage } from '../services/LocalStorage';
 
 const TOTAL_QUESTIONS = 5;
 const TIMER_TO_RESPONDE = 30;
@@ -29,9 +31,30 @@ class QuestionCard extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { questionsIndex } = prevProps;
-    const { questionsIndex: indexActual } = this.props;
-    if (questionsIndex !== indexActual) this.shuffleAnswers();
+    const { questionActual: prevQuest } = prevProps;
+    const { questionActual } = this.props;
+    if (prevQuest !== questionActual) {
+      this.shuffleAnswers();
+    }
+  }
+
+  createFormatObjectRanking = () => {
+    const { player } = this.props;
+    const { name, gravatarEmail, score } = player;
+    const hash = md5(gravatarEmail).toString();
+    const resultPlayer = { name, score, picture: `https://www.gravatar.com/avatar/${hash}` };
+    this.updateRankingStorage(resultPlayer);
+  }
+
+  updateRankingStorage = (resultPlayerObject) => {
+    const previousRank = getItemLocalStorage('ranking');
+    if (previousRank) {
+      const newRank = [...previousRank, resultPlayerObject]
+        .sort((a, b) => a.score - b.score);
+      setLocalStorage('ranking', newRank);
+      return 'já existia um rank';
+    }
+    setLocalStorage('ranking', [resultPlayerObject]);
   }
 
   sumPoints = (time, difficulty) => (
@@ -40,7 +63,6 @@ class QuestionCard extends React.Component {
   initTimer = () => {
     this.timer = setInterval(() => {
       const { timer } = this.state;
-
       if (timer === 0) { this.timeOver(); return true; }
       this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
     }, ONE_SECOND);
@@ -71,6 +93,7 @@ timeOver = () => {
   nextClick = () => {
     const { updateQuestionIndex, questionsIndex, history } = this.props;
     if (questionsIndex === TOTAL_QUESTIONS - 1) {
+      this.createFormatObjectRanking();
       history.push('/feedback');
     } else { updateQuestionIndex(); }
   }
@@ -141,11 +164,16 @@ const mapDispatchToProps = (dispatch) => ({
   updateQuestionIndex: () => dispatch(updateIndexAction()),
 });
 
+const mapStateToProps = ({ player }) => ({
+  player,
+});
+
 QuestionCard.propTypes = {
   questionActual: PropTypes.object,
   updateScore: PropTypes.func,
   updateQuestionIndex: PropTypes.func,
   history: PropTypes.func,
+  player: PropTypes.object,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(QuestionCard);
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

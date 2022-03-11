@@ -7,7 +7,6 @@ class Header extends React.Component {
   render() {
     const { email, score, playerName } = this.props;
     const hash = md5(email).toString();
-    console.log(hash);
     return (
       <header>
         <img

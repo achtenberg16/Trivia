@@ -32,6 +32,12 @@ class QuestionCard extends React.Component {
     this.setState({ responseIntervalIsOver: true });
   }
 
+  handleBorder = (option, correct) => ({
+    border: option !== correct
+      ? '3px solid rgb(255, 0, 0)'
+      : '3px solid rgb(6, 240, 15)',
+  });
+
   render() {
     const { answers, responseIntervalIsOver } = this.state;
     const { questionActual } = this.props;
@@ -42,12 +48,6 @@ class QuestionCard extends React.Component {
     const defaultStyle = {
       border: '1px solid black',
     };
-
-    const handleBorder = (option) => ({
-      border: option !== correct
-        ? '3px solid rgb(255, 0, 0)'
-        : '3px solid rgb(6, 240, 15)',
-    });
 
     return (
       <div>
@@ -70,7 +70,8 @@ class QuestionCard extends React.Component {
                 type="button"
                 disabled={ responseIntervalIsOver }
                 onClick={ this.handleResponse }
-                style={ responseIntervalIsOver ? handleBorder(asw) : defaultStyle }
+                style={ responseIntervalIsOver
+                  ? this.handleBorder(asw, correct) : defaultStyle }
               >
                 {asw}
               </button>

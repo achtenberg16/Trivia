@@ -50,7 +50,7 @@ class QuestionCard extends React.Component {
     const previousRank = getItemLocalStorage('ranking');
     if (previousRank) {
       const newRank = [...previousRank, resultPlayerObject]
-        .sort((a, b) => a.score - b.score);
+        .sort((a, b) => b.score - a.score);
       setLocalStorage('ranking', newRank);
       return 'já existia um rank';
     }

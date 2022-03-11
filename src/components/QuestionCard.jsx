@@ -29,6 +29,7 @@ class QuestionCard extends React.Component {
   initTimer = () => {
     this.timer = setInterval(() => {
       const { timer } = this.state;
+
       if (timer === 0) { this.timeOver(); return true; }
       this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
     }, ONE_SECOND);

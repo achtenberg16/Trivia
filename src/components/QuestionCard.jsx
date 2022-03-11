@@ -48,7 +48,7 @@ timeOver = () => {
   }
 
   handleResponse = () => {
-    this.setState({ responseIntervalIsOver: true });
+    this.timeOver();
   }
 
   handleBorder = (option, correct) => ({

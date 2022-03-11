@@ -10,12 +10,10 @@ export const addInfos = (userInfo) => ({
   payload: userInfo,
 });
 
-export const addTokenAction = (token) => {
-  return ({
-    type: ADD_TOKEN,
-    payload: token,
-  });
-};
+export const addTokenAction = (token) => ({
+  type: ADD_TOKEN,
+  payload: token,
+});
 
 export const addTokenFetch = () => async (dispatch) => {
   const token = await requestToken();
@@ -23,12 +21,10 @@ export const addTokenFetch = () => async (dispatch) => {
   dispatch(addTokenAction(token));
 };
 
-export const addQuestion = (questions) => {
-  return ({
-    type: ADD_QUEST,
-    payload: questions,
-  });
-};
+export const addQuestion = (questions) => ({
+  type: ADD_QUEST,
+  payload: questions,
+});
 
 export const addQuestionFetch = () => async (dispatch, getState) => {
   const { token } = getState();

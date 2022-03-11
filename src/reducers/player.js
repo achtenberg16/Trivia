@@ -11,7 +11,10 @@ const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ADD_INFOS: {
     return {
-      ...state, ...action.payload,
+      ...state,
+      ...action.payload,
+      assertions: 0,
+      score: 0,
     };
   }
   case ADD_SCORE: {

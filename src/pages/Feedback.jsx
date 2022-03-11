@@ -22,14 +22,14 @@ class Feedback extends React.Component {
         <Header />
         {
           assertions < min ? (
-            <h2 className="fb-message" data-testid="feedback-text">Could be better</h2>
+            <h2 className="fb-message" data-testid="feedback-text">Could be better...</h2>
           ) : <h2 className="fb-message" data-testid="feedback-text">Well Done!</h2>
         }
         <h3 data-testid="feedback-total-score" className="fb-score">
-          { `Your score: ${score}` }
+          { score }
         </h3>
         <p data-testid="feedback-total-question" className="fb-assertions">
-          { `You got ${assertions} questions right` }
+          {assertions}
         </p>
         <div className="fb-buttons">
           <button

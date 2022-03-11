@@ -6,6 +6,9 @@ export const ADD_INFOS = '@player/add_infos';
 export const ADD_QUEST = '@questions/add_questions';
 export const ADD_SCORE = '@player/add_score';
 export const UPDATE_INDEX = '@questions/update_index';
+export const RESET_INDEX = '@questions/reset_index';
+
+export const resetIndexAction = () => ({ type: RESET_INDEX });
 
 export const updateIndexAction = () => ({
   type: UPDATE_INDEX,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
-import { addTokenFetch, addInfos } from '../action';
+import { addTokenFetch, addInfos, resetIndexAction } from '../action';
 import triviaLogo from '../trivia.png';
 import '../css/Login.css';
 
@@ -13,6 +13,11 @@ export class Login extends Component {
       gravatarEmail: '',
       isButtonDisabled: true,
     };
+  }
+
+  componentDidMount() {
+    const { resetIndexQuestions } = this.props;
+    resetIndexQuestions();
   }
 
   redirectSettings = () => {
@@ -110,11 +115,13 @@ Login.propTypes = {
   history: object,
   addToken: func,
   submitInfos: func,
+  resetIndexQuestions: func,
 }.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   addToken: () => dispatch(addTokenFetch()),
   submitInfos: (userInfos) => dispatch(addInfos(userInfos)),
+  resetIndexQuestions: () => dispatch(resetIndexAction()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

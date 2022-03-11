@@ -1,4 +1,4 @@
-import { ADD_QUEST, UPDATE_INDEX } from '../action';
+import { ADD_QUEST, UPDATE_INDEX, RESET_INDEX } from '../action';
 
 const INITIAL_STATE = {
   questions: [],
@@ -11,6 +11,13 @@ const questions = (state = INITIAL_STATE, action) => {
     return { ...state, questions: action.payload };
   case UPDATE_INDEX: {
     return { ...state, questionsIndex: state.questionsIndex + 1 };
+  }
+  case RESET_INDEX: {
+    return {
+      ...state,
+      questions: [],
+      questionsIndex: 0,
+    };
   }
   default:
     return state;

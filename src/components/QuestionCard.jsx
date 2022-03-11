@@ -1,9 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import shuffleArray from '../helpers';
+import { updateScoreAction } from '../action';
 
 const TIMER_TO_RESPONDE = 30;
 const ONE_SECOND = 1000;
+const FIXED_POINTS_PER_HIT = 10;
+const multipleForDifficulty = {
+  hard: 3,
+  medium: 2,
+  easy: 1,
+};
 
 class QuestionCard extends React.Component {
   constructor() {
@@ -26,6 +34,9 @@ class QuestionCard extends React.Component {
     if (questionsIndex !== indexActual) this.shuffleAnswers();
   }
 
+  sumPoints = (time, difficulty) => (
+    FIXED_POINTS_PER_HIT + (time * multipleForDifficulty[difficulty]));
+
   initTimer = () => {
     this.timer = setInterval(() => {
       const { timer } = this.state;
@@ -47,8 +58,13 @@ timeOver = () => {
     this.setState({ answers, questionsIndex });
   }
 
-  handleResponse = () => {
+  handleResponse = (timer, difficulty, chosenAlternative, correct) => {
+    const { updateScore } = this.props;
     this.timeOver();
+    if (chosenAlternative === correct) {
+      const pointsEarned = this.sumPoints(timer, difficulty);
+      updateScore(pointsEarned);
+    }
   }
 
   handleBorder = (option, correct) => ({
@@ -60,7 +76,7 @@ timeOver = () => {
   render() {
     const { answers, responseIntervalIsOver, timer } = this.state;
     const { questionActual } = this.props;
-    const { correct_answer: correct } = questionActual;
+    const { correct_answer: correct, difficulty } = questionActual;
 
     let wrongIndex = 0;
 
@@ -88,7 +104,7 @@ timeOver = () => {
                 key={ asw }
                 type="button"
                 disabled={ responseIntervalIsOver }
-                onClick={ this.handleResponse }
+                onClick={ () => this.handleResponse(timer, difficulty, asw, correct) }
                 style={ responseIntervalIsOver
                   ? this.handleBorder(asw, correct) : defaultStyle }
               >
@@ -97,14 +113,20 @@ timeOver = () => {
             );
           })}
         </div>
-
+        {responseIntervalIsOver
+        && <button type="button" data-testid="btn-next">Next</button>}
       </div>
     );
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (score) => dispatch(updateScoreAction(score)),
+});
+
 QuestionCard.propTypes = {
   questionActual: PropTypes.object,
+  updateScore: PropTypes.func,
 }.isRequired;
 
-export default QuestionCard;
+export default connect(null, mapDispatchToProps)(QuestionCard);

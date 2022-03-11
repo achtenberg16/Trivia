@@ -1,4 +1,4 @@
-import { ADD_INFOS } from '../action';
+import { ADD_INFOS, ADD_SCORE } from '../action';
 
 const INITIAL_STATE = {
   name: '',
@@ -12,6 +12,12 @@ const player = (state = INITIAL_STATE, action) => {
   case ADD_INFOS: {
     return {
       ...state, ...action.payload,
+    };
+  }
+  case ADD_SCORE: {
+    return {
+      ...state,
+      score: state.score + action.payload,
     };
   }
   default: return state;

@@ -2,17 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import shuffleArray from '../helpers';
 
+const TIMER_TO_RESPONDE = 30;
+const ONE_SECOND = 1000;
+
 class QuestionCard extends React.Component {
   constructor() {
     super();
     this.state = {
       answers: [],
       responseIntervalIsOver: false,
+      timer: TIMER_TO_RESPONDE,
     };
   }
 
   componentDidMount() {
     this.shuffleAnswers();
+    this.initTimer();
   }
 
   componentDidUpdate(prevProps) {
@@ -20,6 +25,20 @@ class QuestionCard extends React.Component {
     const { questionsIndex: indexActual } = this.state;
     if (questionsIndex !== indexActual) this.shuffleAnswers();
   }
+
+  initTimer = () => {
+    this.timer = setInterval(() => {
+      const { timer } = this.state;
+
+      if (timer === 0) { this.timeOver(); return true; }
+      this.setState((prevstate) => ({ timer: prevstate.timer - 1 }));
+    }, ONE_SECOND);
+  }
+
+timeOver = () => {
+  clearInterval(this.timer);
+  this.setState({ responseIntervalIsOver: true });
+}
 
   shuffleAnswers = () => {
     const { questionActual, questionsIndex } = this.props;
@@ -29,7 +48,7 @@ class QuestionCard extends React.Component {
   }
 
   handleResponse = () => {
-    this.setState({ responseIntervalIsOver: true });
+    this.timeOver();
   }
 
   handleBorder = (option, correct) => ({
@@ -39,7 +58,7 @@ class QuestionCard extends React.Component {
   });
 
   render() {
-    const { answers, responseIntervalIsOver } = this.state;
+    const { answers, responseIntervalIsOver, timer } = this.state;
     const { questionActual } = this.props;
     const { correct_answer: correct } = questionActual;
 
@@ -51,7 +70,7 @@ class QuestionCard extends React.Component {
 
     return (
       <div>
-
+        <h1>{timer}</h1>
         <h2 data-testid="question-category">{ questionActual.category }</h2>
         <h3 data-testid="question-text">{ questionActual.question }</h3>
 

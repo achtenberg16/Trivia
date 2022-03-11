@@ -18,7 +18,10 @@ export class Game extends Component {
       <div>
         <Header />
 
-        {questionActual && <QuestionCard questionActual={ questionActual } />}
+        {questionActual && <QuestionCard
+          questionActual={ questionActual }
+          questionsIndex={ questionsIndex }
+        />}
       </div>
     );
   }

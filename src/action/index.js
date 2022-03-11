@@ -5,6 +5,11 @@ export const ADD_TOKEN = '@token/add_token';
 export const ADD_INFOS = '@player/add_infos';
 export const ADD_QUEST = '@questions/add_questions';
 export const ADD_SCORE = '@player/add_score';
+export const UPDATE_INDEX = '@questions/update_index';
+
+export const updateIndexAction = () => ({
+  type: UPDATE_INDEX,
+});
 
 export const updateScoreAction = (score) => ({
   type: ADD_SCORE,

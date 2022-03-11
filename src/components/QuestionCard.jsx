@@ -69,7 +69,7 @@ timeOver = () => {
   }
 
   nextClick = () => {
-    const { updateQuestionIndex, questionsIndex, history } = this.props;
+    const { updateQuestionIndex, history, questionsIndex } = this.props;
     if (questionsIndex === TOTAL_QUESTIONS - 1) {
       history.push('/feedback');
     } else { updateQuestionIndex(); }

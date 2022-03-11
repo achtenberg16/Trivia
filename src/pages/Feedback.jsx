@@ -12,7 +12,7 @@ class Feedback extends React.Component {
         <Header />
         {
           assertions < min ? (
-            <h3 className="fb-message" data-testid="feedback-text">Could be better</h3>
+            <h3 className="fb-message" data-testid="feedback-text">Could be better...</h3>
           ) : <h3 className="fb-message" data-testid="feedback-text">Well Done!</h3>
         }
       </div>

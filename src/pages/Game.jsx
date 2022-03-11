@@ -12,7 +12,7 @@ export class Game extends Component {
   }
 
   render() {
-    const { questions: { questions, questionsIndex } } = this.props;
+    const { questions: { questions, questionsIndex }, history } = this.props;
     const questionActual = questions[questionsIndex];
     return (
       <div>
@@ -21,6 +21,7 @@ export class Game extends Component {
         {questionActual && <QuestionCard
           questionActual={ questionActual }
           questionsIndex={ questionsIndex }
+          history={ history }
         />}
       </div>
     );
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
 Game.propTypes = {
   submitQuestions: PropTypes.func,
   questions: PropTypes.object,
+  history: PropTypes.object,
 }.isRequired;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

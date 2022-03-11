@@ -4,9 +4,14 @@ import { object, PropTypes } from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  handleButton = () => {
+  handleButtonPlayAgain = () => {
     const { history } = this.props;
     history.push('/');
+  }
+
+  handleButtonRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -26,14 +31,24 @@ class Feedback extends React.Component {
         <p data-testid="feedback-total-question" className="fb-assertions">
           { `You got ${assertions} questions right` }
         </p>
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          className="fb-button"
-          onClick={ this.handleButton }
-        >
-          Play Again
-        </button>
+        <div className="fb-buttons">
+          <button
+            data-testid="btn-play-again"
+            type="button"
+            className="fb-button"
+            onClick={ this.handleButtonPlayAgain }
+          >
+            Play Again
+          </button>
+          <button
+            data-testid="btn-ranking"
+            type="button"
+            className="fb-button"
+            onClick={ this.handleButtonRanking }
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }
@@ -50,5 +65,4 @@ const mapStateToProps = (state) => ({
   score: state.player.score,
 });
 
-// state.player.assertions
 export default connect(mapStateToProps)(Feedback);

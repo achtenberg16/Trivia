@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { object, func } from 'prop-types';
 import { connect } from 'react-redux';
 import { addTokenFetch, addInfos } from '../action';
+import triviaLogo from '../trivia.png';
+import '../css/Login.css';
 
 export class Login extends Component {
   constructor() {
@@ -45,52 +47,61 @@ export class Login extends Component {
   render() {
     const { name, gravatarEmail, isButtonDisabled } = this.state;
     return (
-      <form
-        type="submit"
-        onSubmit={ this.handleSubmit }
-      >
-        <label htmlFor="name">
-          Nome:
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={ name }
-            data-testid="input-player-name"
-            onChange={ this.handleChange }
-            required
-          />
-
-        </label>
-        <label htmlFor="gravatarEmail">
-          Email:
-          <input
-            id="gravatarEmail"
-            name="gravatarEmail"
-            type="email"
-            value={ gravatarEmail }
-            data-testid="input-gravatar-email"
-            onChange={ this.handleChange }
-            required
-          />
-        </label>
-
-        <button
+      <div className="login">
+        <img src={ triviaLogo } alt="trivia logo" className="trivia-logo" />
+        <form
+          className="l-form"
           type="submit"
-          data-testid="btn-play"
-          disabled={ isButtonDisabled }
+          onSubmit={ this.handleSubmit }
         >
-          Play
-        </button>
+          <label htmlFor="name" className="l-label">
+            Nome:
+            <input
+              id="name"
+              className="l-input"
+              name="name"
+              type="text"
+              value={ name }
+              data-testid="input-player-name"
+              onChange={ this.handleChange }
+              required
+            />
 
-        <button
-          data-testid="btn-settings"
-          type="button"
-          onClick={ this.redirectSettings }
-        >
-          Settings
-        </button>
-      </form>
+          </label>
+          <label htmlFor="gravatarEmail" className="l-label">
+            Email:
+            <input
+              id="gravatarEmail"
+              name="gravatarEmail"
+              className="l-input"
+              type="email"
+              value={ gravatarEmail }
+              data-testid="input-gravatar-email"
+              onChange={ this.handleChange }
+              required
+            />
+          </label>
+          <div className="l-buttons">
+            <button
+              type="submit"
+              data-testid="btn-play"
+              disabled={ isButtonDisabled }
+              className="l-button"
+            >
+              Play
+            </button>
+
+            <button
+              data-testid="btn-settings"
+              type="button"
+              onClick={ this.redirectSettings }
+              className="l-button"
+            >
+              Settings
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

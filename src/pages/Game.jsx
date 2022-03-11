@@ -12,21 +12,32 @@ export class Game extends Component {
   }
 
   render() {
+    const { questions: { questions, questionsIndex } } = this.props;
+    const questionActual = questions[questionsIndex];
     return (
       <div>
         <Header />
-        <QuestionCard />
+
+        {questionActual && <QuestionCard
+          questionActual={ questionActual }
+          questionsIndex={ questionsIndex }
+        />}
       </div>
     );
   }
 }
+
+const mapStateToProps = ({ questions }) => ({
+  questions,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   submitQuestions: () => dispatch(addQuestionFetch()),
 });
 
 Game.propTypes = {
-  submitQuestions: PropTypes.func.isRequired,
-};
+  submitQuestions: PropTypes.func,
+  questions: PropTypes.object,
+}.isRequired;
 
-export default connect(null, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

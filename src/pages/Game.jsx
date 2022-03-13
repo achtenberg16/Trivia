@@ -15,7 +15,7 @@ export class Game extends Component {
     const { questions: { questions, questionsIndex }, history } = this.props;
     const questionActual = questions[questionsIndex];
     return (
-      <div>
+      <div className="game">
         <Header />
 
         {questionActual && <QuestionCard

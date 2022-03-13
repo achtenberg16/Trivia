@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import '../css/Game.css';
 
 class Header extends React.Component {
   render() {
     const { email, score, playerName } = this.props;
     const hash = md5(email).toString();
     return (
-      <header>
+      <header className="header">
         <img
           className="profile-image"
           src={ `https://www.gravatar.com/avatar/${hash}` }

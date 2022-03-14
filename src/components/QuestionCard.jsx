@@ -5,6 +5,7 @@ import md5 from 'crypto-js/md5';
 import shuffleArray from '../helpers';
 import { updateScoreAction, updateIndexAction } from '../action';
 import { getItemLocalStorage, setLocalStorage } from '../services/LocalStorage';
+import '../css/Game.css';
 
 const TOTAL_QUESTIONS = 5;
 const TIMER_TO_RESPONDE = 30;
@@ -91,7 +92,7 @@ timeOver = () => {
   }
 
   nextClick = () => {
-    const { updateQuestionIndex, questionsIndex, history } = this.props;
+    const { updateQuestionIndex, history, questionsIndex } = this.props;
     if (questionsIndex === TOTAL_QUESTIONS - 1) {
       this.createFormatObjectRanking();
       history.push('/feedback');
@@ -116,38 +117,46 @@ timeOver = () => {
     };
 
     return (
-      <div>
-        <h1>{timer}</h1>
-        <h2 data-testid="question-category">{ questionActual.category }</h2>
-        <h3 data-testid="question-text">{ questionActual.question }</h3>
+      <div className="question-card">
+        <h1 className="timer">{timer}</h1>
+        <h2 className="category" data-testid="question-category">
+          { questionActual.category }
+        </h2>
+        <div className="question-box">
+          <h3 className="question-text" data-testid="question-text">
+            { questionActual.question }
+          </h3>
 
-        <div data-testid="answer-options">
-          { answers.map((asw) => {
-            let testID = 'correct-answer';
-            if (asw !== correct) {
-              testID = `wrong-answer-${wrongIndex}`;
-              wrongIndex += 1;
-            }
+          <div data-testid="answer-options" className="answer-buttons">
+            { answers.map((asw) => {
+              let testID = 'correct-answer';
+              if (asw !== correct) {
+                testID = `wrong-answer-${wrongIndex}`;
+                wrongIndex += 1;
+              }
 
-            return (
-              <button
-                data-testid={ testID }
-                key={ asw }
-                type="button"
-                disabled={ responseIntervalIsOver }
-                onClick={ () => this.handleResponse(timer, difficulty, asw, correct) }
-                style={ responseIntervalIsOver
-                  ? this.handleBorder(asw, correct) : defaultStyle }
-              >
-                {asw}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  data-testid={ testID }
+                  key={ asw }
+                  type="button"
+                  className="answer-button"
+                  disabled={ responseIntervalIsOver }
+                  onClick={ () => this.handleResponse(timer, difficulty, asw, correct) }
+                  style={ responseIntervalIsOver
+                    ? this.handleBorder(asw, correct) : defaultStyle }
+                >
+                  {asw}
+                </button>
+              );
+            })}
+          </div>
         </div>
         {responseIntervalIsOver
         && (
           <button
             type="button"
+            className="next-button"
             data-testid="btn-next"
             onClick={ this.nextClick }
           >

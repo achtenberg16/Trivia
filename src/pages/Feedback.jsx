@@ -26,11 +26,14 @@ class Feedback extends React.Component {
             <h2 className="fb-message" data-testid="feedback-text">Could be better...</h2>
           ) : <h2 className="fb-message" data-testid="feedback-text">Well Done!</h2>
         }
-        <h3 data-testid="feedback-total-score" className="fb-score">
-          { score }
+        <h3 className="fb-score">
+          Your score:&nbsp;
+          <span data-testid="feedback-total-score">{ score }</span>
         </h3>
-        <p data-testid="feedback-total-question" className="fb-assertions">
-          {assertions}
+        <p className="fb-assertions">
+          You got&nbsp;
+          <span data-testid="feedback-total-question">{assertions}</span>
+          &nbsp;right questions
         </p>
         <div className="fb-buttons">
           <button
